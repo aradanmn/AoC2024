@@ -1,12 +1,11 @@
 //
-//  main.c
+//  Day1.c
 //  AoC2024
 //
-//  Created by Scott Dean on 12/14/24.
+//  Created by Scott Dean on 12/15/24.
 //
 
-#include <stdio.h>
-#include <stdlib.h>
+#include "Day1.h"
 
 // Define a structure to hold each part of numbers (representing a row)
 int col1[1000];
@@ -35,11 +34,11 @@ FILE* FileOpen(const char* filename, const char* mode) {
     }
     return file;
 }
-int main(int argc, const char * argv[]) {
+void Day1(void) {
     int i = 0, sum = 0;
     
     // Open the input file
-    FILE *infile = FileOpen("/Users/scott/Documents/AoC2024/AoC2024/input.txt", "r");
+    FILE *infile = FileOpen("/Users/scott/Documents/AoC2024/AoC2024/Day1/input.txt", "r");
         
     // Read the file line by line, and sum the numbers
     while (fscanf(infile, "%d %d", &col1[i], &col2[i]) != EOF) {
@@ -76,5 +75,5 @@ int main(int argc, const char * argv[]) {
     // fclose(outfile);
     printf("The total distance between the lists are:%d\n", sum);
     printf("The similarity score is:%d\n", similarity_score);
-    return 0;
+    return;
 }
