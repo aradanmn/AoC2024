@@ -26,19 +26,11 @@ int compare(const void *a, const void *b) {
         return 0; // If first columns are equal, keep their order unchanged
     }
 }
-FILE* FileOpen(const char* filename, const char* mode) {
-    FILE *file = fopen(filename, mode);
-    if (file == NULL) {
-        perror("Failed to open file");
-        return NULL;
-    }
-    return file;
-}
 void Day1(void) {
     int i = 0, sum = 0;
     
     // Open the input file
-    FILE *infile = FileOpen("/Users/scott/Documents/AoC2024/AoC2024/Day1/input.txt", "r");
+    FILE *infile = FileOpen("/Users/scott/Documents/AoC2024/AoC2024/Day1/day1_input.txt", "r");
         
     // Read the file line by line, and sum the numbers
     while (fscanf(infile, "%d %d", &col1[i], &col2[i]) != EOF) {

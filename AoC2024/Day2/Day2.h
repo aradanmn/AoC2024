@@ -1,17 +1,18 @@
 //
-//  Day1.h
+//  Day2.h
 //  AoC2024
 //
 //  Created by Scott Dean on 12/15/24.
 //
 
-#ifndef Day1_h
-#define Day1_h
+#ifndef Day2_h
+#define Day2_h
 
 #include "Common.h"
 #include <stdio.h>
 #include <stdlib.h>
+#include <stdbool.h>
 
-void Day1(void);
+void Day2(void);
 
-#endif /* Day1_h */
+#endif /* Day2_h */
