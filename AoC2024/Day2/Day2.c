@@ -7,6 +7,25 @@
 
 #include "Day2.h"
 
+bool is_safe_report(int *report, int size) {
+    bool increasing = true, decreasing = true;
+
+    for (int i = 1; i < size; i++) {
+        int diff = abs(report[i] - report[i - 1]);
+        if (diff < 1 || diff > 3) {
+            return false;
+        }
+        if (report[i] <= report[i - 1]) {
+            increasing = false;
+        }
+        if (report[i] >= report[i - 1]) {
+            decreasing = false;
+        }
+    }
+
+    return increasing || decreasing;
+}
+
 void Day2(void)
 {
     // Create a pointer array to the DynamicArray struct
@@ -63,23 +82,35 @@ void Day2(void)
     {
         safe = true;
         printf("Report %d: ",row+1);
-        for (int col = 0; col < (reports[row].size-1); col++) // this loop is the levels
+        if (is_safe_report(reports[row].data, reports[row].size))
         {
-            int x = reports[row].data[col];
-            int y = reports[row].data[(col+1)];
-            if (abs(x - y) >=4)
-            {
-                safe = false;
-            }
-            if (abs(x - y) == 0)
-            {
-                safe = false;
-            }
-            printf("%d ", x);
+            safeReports++;
+        }else
+        {
+            safe = false;
+        }
+        for (int col = 0; col < (reports[row].size); col++) // this loop is the levels
+        {
+//            int x = reports[row].data[col];
+//            int y = reports[row].data[col - 1];
+//            int diff = abs(x - y);
+//            if (diff < 1 || diff > 3)
+//            {
+//                safe = false;
+//            }
+//            if (x <= y)
+//            {
+//                safe = false;
+//            }
+//            if (x >= y)
+//            {
+//                safe = false;
+//            }
+            printf("%d ", reports[row].data[col]);
         }
         if (safe == true)
         {
-            safeReports++;
+//            safeReports++;
             printf(" Report is Safe\n");
         }
         else
