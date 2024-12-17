@@ -18,9 +18,11 @@ FILE* FileOpen(const char* filename, const char* mode) {
 
 // Function to initialize the dynamic array
 void initArray(DynamicArray *arr, int initialCapacity) {
-    arr->data = (int *)malloc(initialCapacity * sizeof(int));
+    arr->data = (int *)calloc(2,initialCapacity * sizeof(int));
     arr->size = 0;
     arr->capacity = initialCapacity;
+    int *tmp = realloc(arr->data, 2);
+    arr->data = tmp;
 }
 
 // Function to add an element to the array
@@ -30,6 +32,7 @@ void addElement(DynamicArray *arr, int value) {
         arr->capacity *= 2;
         arr->data = (int *)realloc(arr->data, arr->capacity * sizeof(int));
     }
+    memset(arr->data+arr->size,0,arr->size * sizeof(arr->data));
     arr->data[arr->size++] = value;
 }
 

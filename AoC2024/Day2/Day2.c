@@ -13,11 +13,8 @@ bool is_safe_report(int *report, int size) {
     for (int i = 1; i < size; i++) {
         int diff = abs(report[i] - report[i - 1]);
         if (diff < 1 || diff > 3) {
-            diff = abs(report[i+1]-report[i-1]);
-            if (diff < 1 || diff > 3) {
                 return false;
             }
-        }
         if (report[i] <= report[i - 1]) {
             if (report[i+1] >= report[i-1]) {
                 increasing = true;
@@ -63,17 +60,17 @@ void Day2(void)
             inNumber = 1;
         } else if (ch == '\n') // dectect newline and add any number to array
         {
-            addElement(&reports[ReportCnt], number); //Add number to array
+            addElement(&reports[ReportCnt], number); //Add level to Report
             if (inNumber)
             {
                 number = 0; //reset number
                 inNumber = 0; //reset is it a number?
             }
             ReportCnt++;
-            initArray(&reports[ReportCnt], 2);
+            initArray(&reports[ReportCnt], 2); // create a array for the next "Report"
         } else if (ch == ' ') // dectect a space and add any number to the array
         {
-            addElement(&reports[ReportCnt], number);
+            addElement(&reports[ReportCnt], number); //Add level to Report
             if (inNumber)
             {
                 number = 0;
