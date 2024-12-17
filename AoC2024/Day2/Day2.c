@@ -13,13 +13,24 @@ bool is_safe_report(int *report, int size) {
     for (int i = 1; i < size; i++) {
         int diff = abs(report[i] - report[i - 1]);
         if (diff < 1 || diff > 3) {
-            return false;
+            diff = abs(report[i+1]-report[i-1]);
+            if (diff < 1 || diff > 3) {
+                return false;
+            }
         }
         if (report[i] <= report[i - 1]) {
-            increasing = false;
+            if (report[i+1] >= report[i-1]) {
+                increasing = true;
+            } else {
+                increasing = false;
+            }
         }
         if (report[i] >= report[i - 1]) {
-            decreasing = false;
+            if (report[i+1] <= report[i-1]) {
+                decreasing = true;
+            } else {
+                decreasing = false;
+            }
         }
     }
 
@@ -43,23 +54,24 @@ void Day2(void)
     char ch;
     int number = 0;
     int inNumber = 0;
-    while ((ch = fgetc(infile)) != EOF)  // while (fscanf(infile, "%d", &buf) != EOF)
+    while ((ch = fgetc(infile)) != EOF)
     {
+        // converts > single digits into a single interger
         if (isdigit(ch))
         {
             number = number * 10 + (ch - '0');
             inNumber = 1;
-        } else if (ch == '\n')
+        } else if (ch == '\n') // dectect newline and add any number to array
         {
-            addElement(&reports[ReportCnt], number);
+            addElement(&reports[ReportCnt], number); //Add number to array
             if (inNumber)
             {
-                number = 0;
-                inNumber = 0;
+                number = 0; //reset number
+                inNumber = 0; //reset is it a number?
             }
             ReportCnt++;
             initArray(&reports[ReportCnt], 2);
-        } else if (ch == ' ')
+        } else if (ch == ' ') // dectect a space and add any number to the array
         {
             addElement(&reports[ReportCnt], number);
             if (inNumber)
@@ -69,15 +81,12 @@ void Day2(void)
             }
         } else
         {
-            /*if (inNumber)
-            {
-                number = 0;
-                inNumber = 0;
-            } */
         }
     }
     // print out the reports *this is a test*
     printf("Dynamic array elements:\n");
+    // This section initially verified we've ingested the input correctly
+    // i.e. the printf statements.
     for (int row = 0; row < ReportCnt; row++) // this loop is the "Reports"
     {
         safe = true;
@@ -91,26 +100,10 @@ void Day2(void)
         }
         for (int col = 0; col < (reports[row].size); col++) // this loop is the levels
         {
-//            int x = reports[row].data[col];
-//            int y = reports[row].data[col - 1];
-//            int diff = abs(x - y);
-//            if (diff < 1 || diff > 3)
-//            {
-//                safe = false;
-//            }
-//            if (x <= y)
-//            {
-//                safe = false;
-//            }
-//            if (x >= y)
-//            {
-//                safe = false;
-//            }
             printf("%d ", reports[row].data[col]);
         }
         if (safe == true)
         {
-//            safeReports++;
             printf(" Report is Safe\n");
         }
         else
