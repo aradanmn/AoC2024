@@ -7,6 +7,11 @@
 
 #include "Day2.h"
 
+struct Report {
+    int level[20];
+    int numlevels;
+};
+
 bool is_safe_report(int *report, int size) {
     bool increasing = true, decreasing = true;
 
@@ -28,13 +33,8 @@ bool is_safe_report(int *report, int size) {
 
 int main (int argc, char** argv) {
     
-    int TotalReports = 0;
-    int Levels = 0;
-    // Create a dynamic array to hold the reports
-    int **reports = (int **)malloc(2 * sizeof(int *));
-    for (int i = 0; i < 2; i++) {
-        reports[i] = (int *)malloc(2 * sizeof(int));
-    }
+    struct Report curReport;
+    int SafeReports= 0;
     
     // Open the file of input
     FILE *file = fopen("/Users/scott/Documents/AoC2024/AoC2024/Day2/day2_input.txt", "r");
@@ -52,6 +52,9 @@ int main (int argc, char** argv) {
     // Loop through file and report number of lines read and number of characters read
     while ((nread = getline(&line, &len, file)) != -1) {
         
+        // Initialize structure report with zeros
+        memset(curReport.level, 0, sizeof(curReport.numlevels));
+        curReport.numlevels=0;
         // Print the line read from the file
         printf("Retrieved line (%zd chars): %s", nread, line);
         
@@ -68,55 +71,29 @@ int main (int argc, char** argv) {
                 // Empty or NULL string
                 return -1;
             }
-            char *endptr;
-        
-            // Convert to long in base 10
-            long num = strtol(token, &endptr, 10);
-            if ((*endptr != '\0') && (*endptr != '\n')) {
-                double num = strtod(token, &endptr);
-                if ((*endptr != '\0') && (*endptr != '\n')){
-                    printf("Unknown type\n");
-                } else {
-                    // printf("'%f' is a floating porint number.\n", num);
-                    reports[TotalReports][Levels]=(int)num;
-                    Levels++;
-                    reports[TotalReports] = (int *)realloc(reports[TotalReports], Levels * sizeof(int));
-                }
-            } else {
-//                printf("'%ld' is a integer number.\n", num);
-                Levels++;
-                reports[TotalReports] = (int *)realloc(reports[TotalReports], Levels * sizeof(int));
-                reports[TotalReports][Levels]=(int)num;
-            }
+            // Convert string to Integer
+            int num = atoi(token);
+            // Add number to Report
+            curReport.level[curReport.numlevels]=num;
+            ++curReport.numlevels;
             // Next token
             token = strtok_r(NULL, delimiters, &saveptr);
         }
-        Levels = 0;
-        TotalReports++;
-        reports = (int **)realloc(reports, TotalReports * sizeof(int *));
-        reports[TotalReports] = (int *)malloc(2 * sizeof(int));
+        // Determine if the report is safe or not
+        if (is_safe_report(curReport.level, curReport.numlevels)) {
+            printf("Report is safe\n");
+            ++SafeReports;
+        } else {
+            printf("Report is not safe\n");
+        }
     }
-    
+    printf("The total number of safe repots is %d\n",SafeReports);
     // Close the file
     fclose(file);
     
     // Free the dynamically allocated Line memory
     free(line);
-    
-    for (int i = 0; i <= TotalReports; i++) {
-        for (int j = 0; j <= 5; j++) {
-            printf(" %d",reports[i][j]);
-        }
-        printf("\n");
-    }
-    
-    
-    // Free memory
-    for (int i = 0; i < TotalReports; i++) {
-        free(reports[i]);
-    }
-    free(reports);
-    
+       
     // Terminate program report success to STDIN
     return 0;
 }
