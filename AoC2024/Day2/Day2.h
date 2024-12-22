@@ -8,12 +8,9 @@
 #ifndef Day2_h
 #define Day2_h
 
-#include "Common.h"
-#include <ctype.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <stdbool.h>
-
-void Day2(void);
+#include <string.h>
 
 #endif /* Day2_h */
